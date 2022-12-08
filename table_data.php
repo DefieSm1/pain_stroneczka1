@@ -53,7 +53,7 @@
                     echo 
                     '
                     <div class="form-output-checkboxes">
-                        <input type="checkbox" name="columns[]" id="'.$row['Field'].'" value="'.$row['Field'].'" checked>
+                        <input type="checkbox" name="columns[]" id="'.$row['Field'].'" value="'.$row['Field'].'">
                         <label for="'.$row['Field'].'">'.$row['Field'].'</label></br>
                     </div>
                     ';
@@ -76,8 +76,12 @@
 
                 echo "<tr>";
 
-                while($row = $result->fetch_assoc())
+                $i = 0;
+                while($row = $result->fetch_assoc()) {
+                    if(!isset($_POST['columns'][$i]) || !$_POST['columns'][$i]) continue;
                     echo "<td style='font-weight: bolder'>" . $row['Field'] . "</td>";
+                    $i++;
+                }
 
                 echo "</tr>";
 
@@ -85,8 +89,12 @@
 
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    foreach ($row as $field => $value)
+                    $i = 0;
+                    foreach ($row as $field => $value) {
+                        if(!isset($_POST['columns'][$i]) || !$_POST['columns'][$i]) continue;
                         echo "<td>" . $value . "</td>";
+                        $i++;
+                    }
                     
                     echo '<td><button type="submit" class="button edit-button" value="'.$row['id'].'" name="chosen-row">Edytuj</button></td>';
                 }
